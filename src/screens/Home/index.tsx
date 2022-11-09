@@ -14,6 +14,7 @@ import ClipboardIcon from "../../../assets/Clipboard.png";
 import { TaskCard } from "../../components/TaskCard";
 
 import { styles } from "./styles";
+import { sortNotDoneToDone } from "../../utils";
 
 const Separator = () => <View style={styles.separator} />;
 
@@ -56,7 +57,7 @@ export const Home: FunctionComponent<any> = () => {
             return setTaskText("");
         }
         const payload = { text: taskText, done: false };
-        setTasks((prevState) => [...prevState, payload]);
+        setTasks((prevState) => [payload, ...prevState]);
         setTaskText("");
     };
 
@@ -85,6 +86,8 @@ export const Home: FunctionComponent<any> = () => {
             }
             return task;
         });
+
+        payload.sort((a, b) => sortNotDoneToDone(a, b));
 
         setTasks(payload);
     };
